@@ -12,6 +12,6 @@ import { SharedBadgeComponent } from '../../../shared-ui/src/public-api';
 export class AppComponent {
   title = 'app-a';
   onButtonClick() {
-    console.log('button clicke');
+    console.log('button clickedd');
   }
 }
