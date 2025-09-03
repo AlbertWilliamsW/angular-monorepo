@@ -25,16 +25,11 @@ jobs:
         with:
           node-version: 18
 
-      #Install Angular CLI
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
-
       - name: Install deps
         run: npm ci
 
       - name: Build App-A
-        run: ng build app-a --configuration production --base-href /angular-monorepo/app-a/
-
+        run: npx ng build app-a --configuration production --base-href /angular-monorepo/app-a/
 
       - name: Deploy app-a
         run: npx ngh --dir=dist/app-a --branch=gh-pages --message="Deploy app-a"
@@ -42,8 +37,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build App-B
-        run: ng build app-b --configuration production --base-href /angular-monorepo/app-b/
-
+        run: npx ng build app-b --configuration production --base-href /angular-monorepo/app-b/
 
       - name: Deploy app-b
         run: npx ngh --dir=dist/app-b --branch=gh-pages --message="Deploy app-b"
