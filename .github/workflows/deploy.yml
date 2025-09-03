@@ -31,15 +31,18 @@ jobs:
       - name: Build App-A
         run: npx ng build app-a --configuration production --base-href /angular-monorepo/app-a/
 
-      - name: Deploy app-a
-        run: npx ngh --dir=dist/app-a/browser --branch=gh-pages --message="Deploy app-a"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build App-B
         run: npx ng build app-b --configuration production --base-href /angular-monorepo/app-b/
 
-      - name: Deploy app-b
-        run: npx ngh --dir=dist/app-b/browser --branch=gh-pages --message="Deploy app-b"
+      - name: Prepare deployment folder
+        run: |
+          mkdir deploy
+          cp -r dist/app-a/browser deploy/app-a
+          cp -r dist/app-b/browser deploy/app-b
+          cp deploy/app-a/index.html deploy/app-a/404.html
+          cp deploy/app-b/index.html deploy/app-b/404.html
+
+      - name: Deploy all apps to gh-pages
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx ngh --dir=deploy --branch=gh-pages --message="Deploy all apps"
