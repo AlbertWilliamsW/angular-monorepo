@@ -25,14 +25,14 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install deps
-        run: npm ci
+      - name: Install dependencies
+        run: npm install
 
       - name: Build App-A
         run: npx ng build app-a --configuration production --base-href /angular-monorepo/app-a/
 
       - name: Deploy app-a
-        run: npx ngh --dir=dist/app-a --branch=gh-pages --message="Deploy app-a"
+        run: npx ngh --dir=dist/app-a/browser --branch=gh-pages --message="Deploy app-a"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -40,6 +40,6 @@ jobs:
         run: npx ng build app-b --configuration production --base-href /angular-monorepo/app-b/
 
       - name: Deploy app-b
-        run: npx ngh --dir=dist/app-b --branch=gh-pages --message="Deploy app-b"
+        run: npx ngh --dir=dist/app-b/browser --branch=gh-pages --message="Deploy app-b"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
