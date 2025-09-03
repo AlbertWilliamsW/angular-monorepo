@@ -1,0 +1,45 @@
+name: Deploy Angular apps to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'projects/app-a/**'
+      - 'projects/app-b/**'
+      - 'projects/shared-ui/**'
+      - 'angular.json'
+      - 'package.json'
+      - 'tsconfig.*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build app-a
+        run: npm run build:app-a
+
+      - name: Deploy app-a
+        run: npx ngh --dir=dist/app-a --branch=gh-pages --message="Deploy app-a"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build app-b
+        run: npm run build:app-b
+
+      - name: Deploy app-b
+        run: npx ngh --dir=dist/app-b --branch=gh-pages --message="Deploy app-b"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
