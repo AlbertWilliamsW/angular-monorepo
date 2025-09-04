@@ -39,22 +39,22 @@ jobs:
 
             # 6. Prepare deployment folder
       
+            # 6. Prepare deployment folder
+     
       - name: Prepare deployment folder
         run: |
           mkdir -p deploy/app-a
           mkdir -p deploy/app-b
           cp -r dist/app-a/browser/* deploy/app-a/
           cp -r dist/app-b/browser/* deploy/app-b/
-          cp deploy/app-a/browser/index.html deploy/app-a/404.html
-          cp deploy/app-b/browser/index.html deploy/app-b/404.html
+          cp dist/app-a/browser/index.html deploy/app-a/404.html
+          cp dist/app-b/browser/index.html deploy/app-b/404.html
 
-      # 7. Create root index.html to fix cli-ghpages
-        name: Create root index.html with links
-        run: |
-          echo '<!doctype html><html><head><title>Monorepo Apps</title></head><body>' > deploy/index.html
-          echo '<h1>Monorepo Landing Page</h1><ul><li><a href="app-a/">App A</a></li><li><a href="app-b/">App B</a></li></ul></body></html>' >> deploy/index.html
-     
-      # 8. Set Git user info
+      # 7. Create root index.html (dummy or redirects)
+      - name: Create root index.html
+        run: echo '<!doctype html><meta http-equiv="refresh" content="0; URL=app-a/" />' > deploy/index.html
+
+      # 8. Set Git user
       - name: Set Git user
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
