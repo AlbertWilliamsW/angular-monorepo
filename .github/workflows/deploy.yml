@@ -49,9 +49,11 @@ jobs:
           cp deploy/app-b/browser/index.html deploy/app-b/404.html
 
       # 7. Create root index.html to fix cli-ghpages
-      - name: Create root index.html to fix cli-ghpages
-        run: echo "<!doctype html><title>Monorepo Root</title>" > deploy/index.html
-
+        name: Create root index.html with links
+        run: |
+          echo '<!doctype html><html><head><title>Monorepo Apps</title></head><body>' > deploy/index.html
+          echo '<h1>Monorepo Landing Page</h1><ul><li><a href="app-a/">App A</a></li><li><a href="app-b/">App B</a></li></ul></body></html>' >> deploy/index.html
+     
       # 8. Set Git user info
       - name: Set Git user
         run: |
