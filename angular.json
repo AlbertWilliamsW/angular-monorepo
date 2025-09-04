@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/app-a",
+            "outputPath": "dist/app-a/browser",
             "baseHref": "/app-a/",
             "index": "projects/app-a/src/index.html",
             "browser": "projects/app-a/src/main.ts",
@@ -117,7 +117,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/app-b",
+            "outputPath": "dist/app-b/browser",
             "baseHref": "/app-b/",
             "index": "projects/app-b/src/index.html",
             "browser": "projects/app-b/src/main.ts",

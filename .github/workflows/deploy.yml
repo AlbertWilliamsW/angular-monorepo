@@ -10,23 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout code
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
 
+      # 3. Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
+      # 4. Build App-A
       - name: Build App-A
-        run: npx ng build app-a --configuration production --base-href /angular-monorepo/app-a/
+        run: |
+          REPO_NAME=${{ github.event.repository.name }}
+          npx ng build app-a --configuration production --base-href "/$REPO_NAME/app-a/"
 
+      # 5. Build App-B
       - name: Build App-B
-        run: npx ng build app-b --configuration production --base-href /angular-monorepo/app-b/
+        run: |
+          REPO_NAME=${{ github.event.repository.name }}
+          npx ng build app-b --configuration production --base-href "/$REPO_NAME/app-b/"
 
+      # 6. Prepare deployment folder
       - name: Prepare deployment folder
         run: |
           mkdir deploy
@@ -35,7 +46,8 @@ jobs:
           cp deploy/app-a/index.html deploy/app-a/404.html
           cp deploy/app-b/index.html deploy/app-b/404.html
 
-      - name: Deploy all apps to gh-pages
+      # 7. Deploy everything to gh-pages
+      - name: Deploy to GitHub Pages
+        run: npx angular-cli-ghpages --dir=deploy --branch=gh-pages --message="Deploy all apps"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx ngh --dir=deploy --branch=gh-pages --message="Deploy all apps"
