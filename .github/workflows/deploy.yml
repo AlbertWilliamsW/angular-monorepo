@@ -27,8 +27,7 @@ jobs:
 
       # 4. Build App-A
       - name: Build App-A
-        run: |
-          npx ng build app-a --configuration production --base-href "/angular-monorepo/app-a/"
+        run: npx ng build app-a --configuration production --base-href /angular-monorepo/
 
 
       # Debug: List build output for App-A
@@ -37,8 +36,7 @@ jobs:
 
       # 5. Build App-B
       - name: Build App-B
-        run: |
-          npx ng build app-b --configuration production --base-href "/angular-monorepo/app-b/"
+        run: npx ng build app-b --configuration production --base-href /angular-monorepo/
 
       # Debug: List build output for App-B
       - name: List dist/app-b contents
