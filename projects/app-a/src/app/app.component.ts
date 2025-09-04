@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SharedBadgeComponent } from '../../../shared-ui/src/public-api';
+import { SharedBadgeComponent } from '@shared-ui';
 
 @Component({
   selector: 'app-root',

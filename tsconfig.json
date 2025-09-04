@@ -18,9 +18,10 @@
     "paths": {
       "shared-ui": [
         "./dist/shared-ui"
-      ]
+      ],
+      "@shared-ui": ["./projects/shared-ui/src/public-api.ts"]
     },
-    "importHelpers": true,
+    "importHelpers": true,  
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
