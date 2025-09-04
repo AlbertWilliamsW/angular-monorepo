@@ -50,10 +50,10 @@ jobs:
         run: |
           mkdir -p deploy/app-a
           mkdir -p deploy/app-b
-          cp -r dist/app-a/browser/* deploy/app-a/
-          cp -r dist/app-b/browser/* deploy/app-b/
-          cp dist/app-a/browser/browser/index.html deploy/app-a/404.html
-          cp dist/app-b/browser/browser/index.html deploy/app-b/404.html
+          cp -r dist/app-a/* deploy/app-a/
+          cp -r dist/app-b/* deploy/app-b/
+          cp dist/app-a/browser/index.html deploy/app-a/404.html
+          cp dist/app-b/browser/index.html deploy/app-b/404.html
 
       # 7. Create root index.html (dummy or redirects)
       - name: Create root index.html
