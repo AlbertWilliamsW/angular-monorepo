@@ -44,7 +44,7 @@ jobs:
           cp -r dist/app-a/browser deploy/app-a
           cp -r dist/app-b/browser deploy/app-b
           cp deploy/app-a/browser/index.html deploy/app-a/404.html
-          cp deploy/app-b/broswer/index.html deploy/app-b/404.html
+          cp deploy/app-b/browser/index.html deploy/app-b/404.html
 
       # 7. Deploy everything to gh-pages
       - name: Deploy to GitHub Pages
