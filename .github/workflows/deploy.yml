@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
+      # 1. Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -25,44 +25,48 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4. Build App-A
+      # 4. Build App-A (SSR enabled, only browser folder used)
       - name: Build App-A
         run: npx ng build app-a --configuration production --base-href /angular-monorepo/app-a/
-
-
-      # Debug: List build output for App-A
-      - name: List dist/app-a contents
-        run: ls -R dist/app-a
 
       # 5. Build App-B
       - name: Build App-B
         run: npx ng build app-b --configuration production --base-href /angular-monorepo/app-b/
 
-      # Debug: List build output for App-B
-      - name: List dist/app-b contents
-        run: ls -R dist/app-b
-     
-      - name: Prepare deployment folder
+      # 6. Prepare deployment folder
+      - name: Prepare deploy folder
         run: |
           mkdir -p deploy/app-a
           mkdir -p deploy/app-b
-          cp -r dist/app-a/* deploy/app-a/
-          cp -r dist/app-b/* deploy/app-b/
+          cp -r dist/app-a/browser/* deploy/app-a/
+          cp -r dist/app-b/browser/* deploy/app-b/
+          # SPA fallback
           cp dist/app-a/browser/index.html deploy/app-a/404.html
           cp dist/app-b/browser/index.html deploy/app-b/404.html
 
-      # 7. Create root index.html (dummy or redirects)
+      # 7. Optional: Root landing page
       - name: Create root index.html
-        run: echo '<!doctype html><meta http-equiv="refresh" content="0; URL=app-a/" />' > deploy/index.html
+        run: |
+          echo '<!doctype html>
+          <html>
+            <head><meta charset="utf-8"><title>Angular Monorepo</title></head>
+            <body>
+              <h1>Select your app</h1>
+              <ul>
+                <li><a href="app-a/">App-A</a></li>
+                <li><a href="app-b/">App-B</a></li>
+              </ul>
+            </body>
+          </html>' > deploy/index.html
 
-      # 8. Set Git user
+      # 8. Set Git user for commit
       - name: Set Git user
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-      # 9. Deploy everything to gh-pages
+      # 9. Deploy all apps to gh-pages
       - name: Deploy to GitHub Pages
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx angular-cli-ghpages --dir=deploy --branch=gh-pages --message="Deploy all apps" --no-silent
+        run: npx angular-cli-ghpages --dir=deploy --branch=gh-pages --message="Deploy App-A and App-B" --no-silent
