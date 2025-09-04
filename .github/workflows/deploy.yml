@@ -29,25 +29,26 @@ jobs:
       - name: Build App-A
         run: |
           REPO_NAME=${{ github.event.repository.name }}
-          npx ng build app-a --configuration production --base-href "/$REPO_NAME/app-a/"
+          npx ng build app-a --configuration production --base-href "/${REPO_NAME}/app-a/"
 
       # 5. Build App-B
       - name: Build App-B
         run: |
           REPO_NAME=${{ github.event.repository.name }}
-          npx ng build app-b --configuration production --base-href "/$REPO_NAME/app-b/"
+          npx ng build app-b --configuration production --base-href "/${REPO_NAME}/app-b/"
 
       # 6. Prepare deployment folder
       - name: Prepare deployment folder
         run: |
-          mkdir deploy
-          cp -r dist/app-a/browser deploy/app-a
-          cp -r dist/app-b/browser deploy/app-b
+          mkdir -p deploy/app-a
+          mkdir -p deploy/app-b
+          cp -r dist/app-a/browser/* deploy/app-a/
+          cp -r dist/app-b/browser/* deploy/app-b/
           cp deploy/app-a/browser/index.html deploy/app-a/404.html
           cp deploy/app-b/browser/index.html deploy/app-b/404.html
 
       # 7. Deploy everything to gh-pages
       - name: Deploy to GitHub Pages
-        run: npx angular-cli-ghpages --dir=deploy --branch=gh-pages --message="Deploy all apps"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx angular-cli-ghpages --dir=deploy --branch=gh-pages --message="Deploy all apps" --no-silent
