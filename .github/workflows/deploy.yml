@@ -45,8 +45,8 @@ jobs:
           mkdir -p deploy/app-b
           cp -r dist/app-a/browser/* deploy/app-a/
           cp -r dist/app-b/browser/* deploy/app-b/
-          cp deploy/app-a/index.html deploy/app-a/404.html
-          cp deploy/app-b/index.html deploy/app-b/404.html
+          cp deploy/app-a/browser/index.html deploy/app-a/404.html
+          cp deploy/app-b/browser/index.html deploy/app-b/404.html
 
       # 7. Create root index.html to fix cli-ghpages
       - name: Create root index.html to fix cli-ghpages
