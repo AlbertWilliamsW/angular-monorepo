@@ -31,24 +31,29 @@ jobs:
           REPO_NAME=${{ github.event.repository.name }}
           npx ng build app-a --configuration production --base-href "/${REPO_NAME}/app-a/"
 
+
+      # Debug: List build output for App-A
+      - name: List dist/app-a contents
+        run: ls -R dist/app-a
+
       # 5. Build App-B
       - name: Build App-B
         run: |
           REPO_NAME=${{ github.event.repository.name }}
           npx ng build app-b --configuration production --base-href "/${REPO_NAME}/app-b/"
 
-            # 6. Prepare deployment folder
-      
-            # 6. Prepare deployment folder
+      # Debug: List build output for App-B
+      - name: List dist/app-b contents
+        run: ls -R dist/app-b
      
       - name: Prepare deployment folder
         run: |
           mkdir -p deploy/app-a
           mkdir -p deploy/app-b
-          cp -r dist/app-a/* deploy/app-a/
-          cp -r dist/app-b/* deploy/app-b/
-          cp dist/app-a/index.html deploy/app-a/404.html
-          cp dist/app-b/index.html deploy/app-b/404.html
+          cp -r dist/app-a/browser/* deploy/app-a/
+          cp -r dist/app-b/browser/* deploy/app-b/
+          cp dist/app-a/browser/index.html deploy/app-a/404.html
+          cp dist/app-b/browser/index.html deploy/app-b/404.html
 
       # 7. Create root index.html (dummy or redirects)
       - name: Create root index.html
