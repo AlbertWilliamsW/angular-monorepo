@@ -1,12 +1,10 @@
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { appConfig } from './app.config';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering(),
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+    provideServerRendering()
   ]
 };
 
